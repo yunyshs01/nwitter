@@ -1,7 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
 
 const Navigation = ({userObj})=>{
+
+
+   
+
     return(
         <nav>
             <ul>
