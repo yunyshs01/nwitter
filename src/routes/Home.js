@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 var Home = ({ userObj }) => {
 	const [nweet, setNweet] = useState("");
 	const [nweets, setNweets] = useState([]);
-	const [attachment, setAttachment] = useState(null);
+	const [attachment, setAttachment] = useState("");
 
 	useEffect(() => {
 		dbService.collection("nweets").onSnapshot((snapshot) => {
@@ -19,10 +19,12 @@ var Home = ({ userObj }) => {
 			setNweets(nweetArray);
 		});
 	}, []);
+	
+	//onSubmit : 
 	const onSubmit = async (event) => {
 		event.preventDefault();
 		let attachmentUrl = "";
-		if (attachment != "") {
+		if (attachment !== "") {
 			const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
 			const response = await fileRef.putString(attachment, "data_url");
 			attachmentUrl = await response.ref.getDownloadURL();
@@ -80,7 +82,7 @@ var Home = ({ userObj }) => {
 				<input type="submit" value="Nweet"></input>
 				{attachment && (
 					<div>
-						<img src={attachment} width="100px" height="100px"></img>
+						<img src={attachment} width="100px" height="100px" alt="it seems not loaded"></img>
 						<button onClick={onClearAttachment}>Clear</button>
 					</div>
 				)}
