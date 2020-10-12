@@ -1,11 +1,11 @@
 import { authService, dbService } from "fBase";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const Profile = ({ userObj }) => {
 	const history = useHistory();
-
+	const [newName, setNewName] = useState(userObj.displayName);
 	const onLogOutClick = () => {
 		authService.signOut();
 		history.push("/");
@@ -23,12 +23,35 @@ const Profile = ({ userObj }) => {
 		getMyNweets();
 	}, []);
 
+	const onRenameSubmit = async (event) => {
+		event.preventDefault();
+		
+		if (newName !== userObj.displayName) {
+			await userObj.updateProfile({
+				displayName: newName,
+			});
+		}
+	};
+
+	const onChange= (event)=>{
+		const {target : {value}} = event;
+		setNewName(value);
+	}
+
 	return (
 		<>
 			{Boolean(userObj) ? (
 				<>
-					<p>{userObj.displayName}</p>
-					<p>{userObj.email}</p>
+					<form onSubmit={onRenameSubmit}>
+						<input
+							type="text"
+							placeholder="Profile rename"
+							value={newName}
+							onChange={onChange}
+							name="newProfile"
+						></input>
+						<input type="submit"></input>
+					</form>
 					<button onClick={onLogOutClick}>log out</button>
 				</>
 			) : (
