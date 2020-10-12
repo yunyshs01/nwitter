@@ -1,21 +1,26 @@
-import { authService } from 'fBase';
-import { onLog } from 'firebase';
-import React from 'react'
-import { useHistory } from 'react-router-dom';
+import { authService } from "fBase";
 
-const Profile = ()=>{
-    const history = useHistory();
-    const onLogOutClick = () =>{
-        
-        authService.signOut();
-        history.push("/");
+import React from "react";
+import { useHistory } from "react-router-dom";
 
-    }
-    return(
-        <>
-            <button onClick={onLogOutClick}>Log Out</button>
-        </>
-    )
-}
+const Profile = ({ userObj }) => {
+	console.log(userObj);
+	const history = useHistory();
+	const onLogOutClick = () => {
+		authService.signOut();
+		history.push("/");
+	};
+	return (
+		<>
+			{Boolean(userObj) ? (
+				<>
+					<p>{userObj.displayName}</p>
+					<p>{userObj.email}</p>
+					<button onClick={onLogOutClick}>log out</button>
+				</>
+			):history.push("/")}
+		</>
+	);
+};
 
 export default Profile;
