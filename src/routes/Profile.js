@@ -3,13 +3,12 @@ import { authService, dbService } from "fBase";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const Profile = ({refreshUser, userObj }) => {
+const Profile = ({ refreshUser, userObj }) => {
 	const history = useHistory();
 	const [newName, setNewName] = useState(userObj.displayName);
 	const onLogOutClick = async () => {
 		await authService.signOut();
 		history.push("/");
-		
 	};
 
 	const getMyNweets = async () => {
@@ -26,42 +25,55 @@ const Profile = ({refreshUser, userObj }) => {
 
 	const onRenameSubmit = async (event) => {
 		event.preventDefault();
-		
+
 		if (newName !== userObj.displayName) {
 			await userObj;
 			await userObj.updateProfile({
 				displayName: newName,
 			});
-			
+
 			refreshUser();
 		}
 	};
 
-	const onChange= (event)=>{
-		const {target : {value}} = event;
+	const onChange = (event) => {
+		const {
+			target: { value },
+		} = event;
 		setNewName(value);
-	}
+	};
 
 	return (
-		<>
+		<div className="container">
 			{Boolean(userObj) ? (
 				<>
-					<form onSubmit={onRenameSubmit}>
+					<form onSubmit={onRenameSubmit} className="profileForm">
 						<input
 							type="text"
 							placeholder="Profile rename"
 							value={newName}
 							onChange={onChange}
 							name="newProfile"
+							autoFocus
+							className="formInput"
 						></input>
-						<input type="submit"></input>
+						<input
+							type="submit"
+							value="Update Profile"
+							className="formBtn"
+							style={{
+								marginTop: 10,
+							}}
+						/>
 					</form>
-					<button onClick={onLogOutClick}>log out</button>
+					<span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
+						Log Out
+					</span>
 				</>
 			) : (
 				history.push("/")
 			)}
-		</>
+		</div>
 	);
 };
 

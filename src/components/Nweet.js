@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { dbService, storageService } from "fBase";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 const Nweet = ({ nweetObj, isOwner }) => {
 	const [editing, setEditing] = useState(false);
 	const [newNweet, setNewNweet] = useState(nweetObj.nweet);
@@ -34,31 +35,37 @@ const Nweet = ({ nweetObj, isOwner }) => {
 	const toggleEditing = () => setEditing((prev) => !prev);
 
 	return (
-		<div>
+		<div className="nweet">
 			{editing ? (
 				<>
-					<form onSubmit={onSubmit}>
+					<form onSubmit={onSubmit} className="container nweetEdit">
 						<input
 							onChange={onChange}
 							value={newNweet}
 							placeholder="Edit your Nweet"
 							required
+							autoFocus
+							className="formInput"
 						></input>
-						<input type="submit" value="Edit it!"></input>
-						<button onClick={toggleEditing}>Cancel</button>
+						<input type="submit" value="Edit it!" className="formBtn"></input>
+						<span onClick={toggleEditing} className="formBtn cancelBtn">
+							Cancel
+						</span>
 					</form>
 				</>
 			) : (
 				<>
 					<h4>{nweetObj.nweet}</h4>
-					{nweetObj.attachmentUrl && (
-						<img src={nweetObj.attachmentUrl} alt='it seems not loaded' width="50px" height="50px"></img>
-					)}
+					{nweetObj.attachmentUrl && <img src={nweetObj.attachmentUrl} />}
 					{isOwner && (
-						<>
-							<button onClick={onDeleteClick}>Delete Nweet</button>
-							<button onClick={toggleEditing}>Edit Nweet</button>
-						</>
+						<div class="nweet__actions">
+							<span onClick={onDeleteClick}>
+								<FontAwesomeIcon icon={faTrash} />
+							</span>
+							<span onClick={toggleEditing}>
+								<FontAwesomeIcon icon={faPencilAlt} />
+							</span>
+						</div>
 					)}
 				</>
 			)}

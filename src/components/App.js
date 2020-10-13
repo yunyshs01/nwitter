@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {authService} from 'fBase';
-import AppRouter from "componants/Router"
+import AppRouter from "components/Router"
 
 
 function App() {
