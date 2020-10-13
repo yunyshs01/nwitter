@@ -19,6 +19,9 @@ function App() {
           updateProfile : (args)=>user.updateProfile(args)
         });
       }
+      else{
+        setUserObj(null);
+      }
       
 
       setInit(true);

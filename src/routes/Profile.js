@@ -6,9 +6,10 @@ import { useHistory } from "react-router-dom";
 const Profile = ({refreshUser, userObj }) => {
 	const history = useHistory();
 	const [newName, setNewName] = useState(userObj.displayName);
-	const onLogOutClick = () => {
-		authService.signOut();
+	const onLogOutClick = async () => {
+		await authService.signOut();
 		history.push("/");
+		
 	};
 
 	const getMyNweets = async () => {
